@@ -6,6 +6,7 @@ def run():
     print(ip_requests_number(logs))
     print(ip_find(logs))
     print(ip_find(logs, False))
+    print(longest_request(logs))
     
 
 def read_log(path):
@@ -46,7 +47,17 @@ def ip_find(logs, most_active=True):
         elif ips[results[-1]] == ips[ip]:
             results.append(ip)
     return results
-    
+
+def longest_request(logs):
+    max_length = 0
+    results = {}
+    for i in range(len(logs["request"])):
+        if len(logs["request"][i]) > max_length:
+            max_length = len(logs["request"][i])
+            results["ip"] = logs["ip"][i]
+            results["request"] = logs["request"][i]
+    return results
+
             
 if __name__ == "__main__":
     run()
