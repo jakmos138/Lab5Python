@@ -1,12 +1,13 @@
 import datetime
 
 def run():
-    logs = read_log("logtest.txt")
+    logs = read_log("log.txt")
     print(logs)
     print(ip_requests_number(logs))
     print(ip_find(logs))
     print(ip_find(logs, False))
     print(longest_request(logs))
+    print(non_existent(logs))
     
 
 def read_log(path):
@@ -57,6 +58,13 @@ def longest_request(logs):
             results["ip"] = logs["ip"][i]
             results["request"] = logs["request"][i]
     return results
+
+def non_existent(logs):
+    results = []
+    for i in range(len(logs["request"])):
+        if logs["status"][i] == "404":
+            results.append(logs["request"][i])
+    return set(results)
 
             
 if __name__ == "__main__":
