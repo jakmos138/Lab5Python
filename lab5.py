@@ -1,7 +1,10 @@
 import datetime
 
 def run():
-    print("TBD")
+    logs = read_log("logtest.txt")
+    print(logs)
+    request_numbers = ip_requests_number(logs)
+    print(request_numbers)
 
 def read_log(path):
     logs = {'ip': [], 'hyphen': [], 'userid': [], 'timestamp': [], 'request': [], 'status': [], 'size': [], 'referer': [], 'header': []}
@@ -22,6 +25,15 @@ def read_log(path):
             logs["referer"].append(firstSplit[2][:-1])
             logs["header"].append(firstSplit[3].rstrip()[:-1])
     return logs
+
+def ip_requests_number(logs):
+    request_numbers = {}
+    for ip in logs["ip"]:
+        try:
+            request_numbers[ip] = request_numbers[ip] + 1
+        except KeyError:
+            request_numbers[ip] = 1
+    return request_numbers
             
-logs = read_log("logtest.txt")
-print(logs)
+if __name__ == "__main__":
+    run()
