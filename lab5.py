@@ -3,8 +3,10 @@ import datetime
 def run():
     logs = read_log("logtest.txt")
     print(logs)
-    request_numbers = ip_requests_number(logs)
-    print(request_numbers)
+    print(ip_requests_number(logs))
+    print(ip_find(logs))
+    print(ip_find(logs, False))
+    
 
 def read_log(path):
     logs = {'ip': [], 'hyphen': [], 'userid': [], 'timestamp': [], 'request': [], 'status': [], 'size': [], 'referer': [], 'header': []}
@@ -34,6 +36,17 @@ def ip_requests_number(logs):
         except KeyError:
             request_numbers[ip] = 1
     return request_numbers
+
+def ip_find(logs, most_active=True):
+    ips = ip_requests_number(logs)
+    results = []
+    for ip in sorted(ips, reverse=most_active):
+        if len(results) == 0:
+            results.append(ip)
+        elif ips[results[-1]] == ips[ip]:
+            results.append(ip)
+    return results
+    
             
 if __name__ == "__main__":
     run()
